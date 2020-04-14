@@ -1,0 +1,65 @@
+    <style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td, th {
+        border: 1px solid #000;
+        text-align: left;
+        padding: 10px;
+    }
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    .avatar {
+        float:left;
+        margin-right:20px;
+    }
+    a {
+        color: #000000;
+        text-decoration: none; /* no underline */
+    }
+
+    </style>
+        <meta charset="UTF-8">
+        <title>#bugbountytip</title>
+
+<!-- https://codepen.io/davemh/pen/NxeKjm -->
+
+
+<img src="https://abs.twimg.com/icons/apple-touch-icon-192x192.png" height="48px" style="float:left;margin-right:25px;"><h1><a href="/">#bugbountytip</a></h1>
+<div id="composers">
+<table border="1">
+    <thead>
+        <th>Author / date</th>
+        <th class="sort" data-sort="retweets">Retweets</th>
+        <th class="sort" data-sort="likes">Likes</th>
+        <th>Tweet</th>
+<th>
+<input class="search" placeholder="Search" />
+</th>
+    </thead>
+    <tbody class="list">
+    {% for row in result %}
+        <tr>
+            <td class="author"><a href="https://twitter.com/intent/user?user_id={{ row.author_id }}" target="_blank"><img class="avatar" src="{{ row.author_profile_image_url }}">{{ row.author_name }}<br><strong>@{{ row.author_screen_name }}</strong></a><br><br><em>{{ row.created_at }}</em></td>
+            <td style="text-align: center; vertical-align: middle;"><a href="https://twitter.com/intent/retweet?tweet_id={{ row.tweet_id}}" target="_blank" class="retweets">{{ row.tweet_retweet_count }}</a></td>
+            <td class="likes" style="text-align: center; vertical-align: middle;"><a href="https://twitter.com/intent/like?tweet_id={{ row.tweet_id }}" target="_blank">{{ row.tweet_favorite_count }}</a></td>
+            <td class="text"><a href="https://twitter.com/statuses/{{ row.tweet_id }}" target="_blank">{{ row.tweet_full_text }}</a></td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+<ul class="pagination">
+</ul>
+</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script>
+var options = {
+valueNames: [ 'author', 'retweets', 'likes', 'text' ]
+};
+var composersList = new List('composers', options);
+</script>
+

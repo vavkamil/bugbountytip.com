@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<title>#bugbountytip ~ Latest bug bounty related tweets</title>
+
+<style>
+    body {
+        font-size: 18px;
+    }
+      table
+{
+   border-collapse: collapse;
+}
+
+th {
+  border-bottom: 1px solid #ccc;
+}
+
+.pagination {
+      text-align: center;
+}
+.pagination li {
+  display:inline-block;
+  padding:5px;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+
+#logo {
+  text-align: center;
+}
+#logo img {
+    vertical-align: middle;
+    margin-right:25px;
+}
+
+h1, .list {
+font-family: 'Inconsolata', monospace;
+}
+h1 {
+    margin:0;
+    padding:0;
+    line-height: 0.2em;
+}
+
+tr
+{
+   border-bottom: 1px solid #ccc;
+}
+
+td {
+  padding: 10px;
+}
+
+input {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  padding: 7px 14px;
+  margin-bottom: 10px
+}
+
+input:focus {
+  outline: none;
+  border-color: #aaa;
+}
+
+.sort, button {
+  padding: 8px 30px;
+  border: none;
+  display: inline-block;
+  color: black;
+  background-color: transparent;
+  text-decoration: none;
+  height: 30px;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.sort:hover {
+  text-decoration: none;
+}
+
+.sort:focus {
+  outline: none;
+}
+
+.sort:after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content: "";
+  position: relative;
+  top: -10px;
+  right: -5px;
+}
+
+.sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+  content: "";
+  position: relative;
+  top: 4px;
+  right: -5px;
+}
+
+.sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000;
+  content: "";
+  position: relative;
+  top: -4px;
+  right: -5px;
+}
+
+/* Let's make a class that hides part of the bio, so the table looks tidy, but still allows us to search through the hidden text. In this hypothetical, we'd be using Wordpress to load both excerpts and the text of full posts, but we'd hid the full post text using the "bio-hidden" class. Each "Read more..." would link to a new page with the full bio. */
+
+/* Let's push the search field to the far right of the table header. */
+
+input.search {
+  float: right;
+}
+
+/* Portrait images: since we're eventually going to grab these from video, let's make them 1080p proportions (1920 x 1080), but thumbnail size. Let's also desaturate them so they're all black and white. */
+
+    .avatar {
+        float:left;
+        margin-right:20px;
+    }
+    a {
+        color: #000000;
+        text-decoration: none; /* no underline */
+    }
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+#header {
+    color: #fff;
+    padding: 10px;
+    display:block;
+    background-color: #000;
+    text-align:center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+#header a {
+        color: white !important;
+        font-size: 14px !important;
+}
+#footer {
+	text-align: center;
+	font-style: italic;
+	font-size:10px;
+	color: #d3d3d3;
+}
+</style>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet"> 
+</head>
+<body>
+
+
+<div id="header">
+    <a href="https://twitter.com/vavkamil" target="_blank">@vavkamil</a> | 
+    <a href="https://www.reddit.com/r/bugbounty/" target="_blank">/r/bugbounty</a> | 
+    <a href="https://github.com/vavkamil/bugbountytip.com/" target="_blank">GitHub</a>
+</div>
+<div id="logo">
+<h1><img src="https://abs.twimg.com/icons/apple-touch-icon-192x192.png" height="48px"><a href="/">#bugbountytip</a></h1>
+<em>Latest bug bounty related tweets</em>
+</div>
+<div id="composers">
+
+<table cellspacing="0" cellpadding="0">
+    <thead>
+        <th></th>
+        <th><button class="sort" data-sort="retweets">Retweets</button></th>
+        <th><button class="sort" data-sort="likes">Likes</button></th>
+<th>
+<input class="search" placeholder="Search" />
+</th>
+    </thead>
+    <tbody class="list">
+    {% for row in result %}
+        <tr>
+            <td width="250" class="author"><a href="https://twitter.com/intent/user?user_id={{ row.author_id }}" target="_blank"><img class="avatar" src="{{ row.author_profile_image_url }}">{{ row.author_name }}<br><strong>@{{ row.author_screen_name }}</strong></a><br><br><em>{{ row.created_at }}</em></td>
+            <td style="text-align: center; vertical-align: middle;"><a href="https://twitter.com/intent/retweet?tweet_id={{ row.tweet_id}}" target="_blank" class="retweets">{{ row.tweet_retweet_count }}</a></td>
+            <td style="text-align: center; vertical-align: middle;"><a href="https://twitter.com/intent/like?tweet_id={{ row.tweet_id }}" target="_blank"  class="likes">{{ row.tweet_favorite_count }}</a></td>
+            <td class="text"><a href="https://twitter.com/vavkamil/status/{{ row.tweet_id }}" target="_blank">{{ row.tweet_full_text }}</a></td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+    <ul class="pagination">
+</ul>
+<div id="footer">
+There is #{{count['count(tweet_id)']}} tweets in the database.
+</div>
+</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script>
+
+var composersList = new List('composers', {
+  valueNames: [ 'author', 'retweets', 'likes', 'text' ],
+  page: 20,
+  pagination: true
+});
+
+
+</script>
+
+</body>
+</html>
